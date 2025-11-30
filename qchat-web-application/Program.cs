@@ -1,3 +1,5 @@
+using qchat_web_application.Hubs;
+using qchat_web_application.Models;
 
 namespace qchat_web_application
 {
@@ -13,6 +15,9 @@ namespace qchat_web_application
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSignalR();
+            builder.Services.AddSingleton<IDictionary<string, UserRoomConnection>>(
+                _ => new Dictionary<string, UserRoomConnection>());
 
             var app = builder.Build();
 
@@ -22,6 +27,11 @@ namespace qchat_web_application
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+            });
 
             app.UseHttpsRedirection();
 
