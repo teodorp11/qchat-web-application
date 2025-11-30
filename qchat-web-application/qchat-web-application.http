@@ -1,0 +1,6 @@
+@qchat_web_application_HostAddress = http://localhost:5029
+
+GET {{qchat_web_application_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
