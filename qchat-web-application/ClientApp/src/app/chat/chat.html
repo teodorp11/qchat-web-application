@@ -1,1 +1,49 @@
-<p>chat works!</p>
+<div class="container mt-5">
+  <div class="chat_header">
+    <h3 class="text-center my-2">Welcome!</h3>
+    <button class="btn btn-danger">Leave Chat</button>
+  </div>
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="inbox_people">
+        <div class="headind_srch">
+          <div class="recent_heading">
+            <h4 class="text-black">Dummy Connected Users</h4>
+          </div>
+          <div class="srch_bar">
+            <div class="stylish-input-group">
+              <input type="text" class="search-bar" placeholder="Search" />
+              <span class="input-group-addon">
+                <button type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="inbox_chat">
+          <ng-container>
+            <div class="chat_list">
+              <div class="chat_people">
+                <div class="chat_img">
+                  <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" />
+                </div>
+                <div class="chat_ib mt-3">
+                  <h5>Dummy User <span class="online"></span></h5>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="mesgs">
+        <div class="type_msg">
+          <div class="input_msg_write">
+            <input type="text" class="write_msg" placeholder="Type a message" />
+            <button class="msg_send_btn" type="button">
+              <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
