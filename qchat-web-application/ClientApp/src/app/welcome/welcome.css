@@ -1,0 +1,30 @@
+.container {
+  max-width: 100%;
+  height: 100vh;
+  margin: auto;
+  /* Replacing blue/yellow gradient with darker/lighter gradient similar to .cardbody-color */
+  background-color: #101315; /* Base dark color from .cardbody-color */
+  background-image: linear-gradient(
+    180deg,
+    #eaeaf3 25%,
+    #ffffff 100%
+  ); /* Lighter gradient from .cardbody-color */
+  /* You might also consider using a gradient based on the dark .btn-color: */
+  /* background-color: #0e1c36;
+     background-image: linear-gradient(180deg, #2b3a55 25%, #0e1c36 100%); */
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  /* Assuming the content inside .center should use the light text color for contrast */
+  color: #fff; /* Light text color from .btn-color */
+  transform: translateY(-50%);
+}
+
+/* Optional: Adding a style for the overall body or common element if you want to set a default font */
+/*
+body {
+  font-family: 'Arial', sans-serif; 
+}
+*/
