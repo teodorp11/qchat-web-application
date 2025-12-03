@@ -18,6 +18,17 @@ namespace qchat_web_application
             builder.Services.AddSignalR();
             builder.Services.AddSingleton<IDictionary<string, UserRoomConnection>>(
                 _ => new Dictionary<string, UserRoomConnection>());
+            
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
 
             var app = builder.Build();
 
@@ -28,6 +39,10 @@ namespace qchat_web_application
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
+
+            app.UseCors();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");

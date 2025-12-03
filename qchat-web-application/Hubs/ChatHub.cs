@@ -6,6 +6,7 @@ namespace qchat_web_application.Hubs
     public class ChatHub : Hub
     {
         private readonly IDictionary<string, UserRoomConnection> _connection;
+
         public ChatHub(IDictionary<string, UserRoomConnection> connection)
         {
             _connection = connection;
@@ -14,42 +15,41 @@ namespace qchat_web_application.Hubs
         public async Task JoinRoom(UserRoomConnection userConnection)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, userConnection.Room!);
+            _connection[Context.ConnectionId] = userConnection;
             await Clients.Group(userConnection.Room!)
-                .SendAsync("ReceiveMessage", "QChat Bot", $"{userConnection.User} has joined the group.");
+                .SendAsync("ReceiveMessage", "QCHAT Bot", $"{userConnection.User} has Joined the Group", DateTime.Now);
             await SendConnectedUser(userConnection.Room!);
         }
 
         public async Task SendMessage(string message)
         {
-            if (_connection.TryGetValue(Context.ConnectionId, out var userConnection))
+            if (_connection.TryGetValue(Context.ConnectionId, out UserRoomConnection userRoomConnection))
             {
-                await Clients.Group(userConnection.Room!)
-                    .SendAsync("ReceiveMessage", userConnection.User, message);
+                await Clients.Group(userRoomConnection.Room!)
+                    .SendAsync("ReceiveMessage", userRoomConnection.User, message, DateTime.Now);
             }
         }
-        public override Task OnDisconnectedAsync(Exception? exception)
+
+        public override Task OnDisconnectedAsync(Exception? exp)
         {
             if (!_connection.TryGetValue(Context.ConnectionId, out UserRoomConnection roomConnection))
             {
-                return base.OnDisconnectedAsync(exception);
+                return base.OnDisconnectedAsync(exp);
             }
 
             _connection.Remove(Context.ConnectionId);
-
             Clients.Group(roomConnection.Room!)
-                .SendAsync("ReceiveMessage", "QChat Bot", $"{roomConnection.User} has left the group", DateTime.Now);
-            
+                .SendAsync("ReceiveMessage", "Lets Program bot", $"{roomConnection.User} has Left the Group", DateTime.Now);
             SendConnectedUser(roomConnection.Room!);
-
-            return base.OnDisconnectedAsync(exception);
+            return base.OnDisconnectedAsync(exp);
         }
 
         public Task SendConnectedUser(string room)
         {
             var users = _connection.Values
                 .Where(u => u.Room == room)
-                .Select(u => u.User);
-            return Clients.Group(room).SendAsync("Connected User", users);
+                .Select(s => s.User);
+            return Clients.Group(room).SendAsync("ConnectedUser", users);
         }
     }
 }
