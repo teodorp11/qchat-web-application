@@ -1,6 +1,5 @@
 # QCHAT
 
-> **🚧 DEVELOPMENT WARNING 🚧**
-> This project is currently in active development.
+Chat Room Web Application
 
 ---
